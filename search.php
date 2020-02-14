@@ -50,6 +50,6 @@ $end = filesize($filename);
 echo 'undef';
 
 }
-binarySearch('test.txt', "ключ2");
+binarySearch('test.txt', "ключ212365");
 
 echo "\nВремя выполнения скрипта: " . round(microtime(true) - $s, 4) . ' сек.';
