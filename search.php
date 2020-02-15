@@ -26,26 +26,13 @@ $end = filesize($filename);
     while ($start < $end) {
         $middle = $start + floor(($end - $start) / 2);
         $lines = explode("\x0A", file_get_contents($filename, FALSE, NULL, $middle, 4000));
-        $params = [];
-        foreach ($lines as $line) {
-            $params[] = explode("\t", $line);
-        }
-
-        $result = array_filter($params, function($innerArray) use ($key) {
-            return ($innerArray[0] == $key); //Поиск по первому значению
-        });
-
-        if ($result) {
-            foreach ($result as $value) {
-                return print_r($value[1]);
-            }
-        } else {
-            $strnatcmp = strnatcmp($params[1][0], $key);
-        }
-
-        if ($strnatcmp > 0) {
+        $index = explode("\t", $lines[1]);
+        $strnatcmp = strnatcmp($index[0], $key);
+        if ($strnatcmp === 0) {
+            return print_r($index[1]);
+        } elseif ($strnatcmp > 0) {
             $end = $middle - 1;
-        } elseif ($strnatcmp < 0) {
+        } else {
             $start = $middle + 1;
         }
     }
