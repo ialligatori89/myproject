@@ -29,16 +29,26 @@ $end = filesize($filename);
         $index = explode("\t", $lines[1]);
         $strnatcmp = strnatcmp($index[0], $key);
         if ($strnatcmp === 0) {
-            return print_r($index[1]);
+            $value = $index[1];
+            return print_r($value);
         } elseif ($strnatcmp > 0) {
             $end = $middle - 1;
         } else {
             $start = $middle + 1;
         }
     }
+    //Условие для вывода 1 значения ключа
+    if (empty($value)) {
+    $lines = explode("\x0A", file_get_contents($filename, FALSE, NULL, 0, 4000));
+    $index = explode("\t", $lines[0]);
+    $strnatcmp = strnatcmp($index[0], $key);
+        if ($strnatcmp === 0) {
+            return print_r($index[0]);
+            }
+}
 echo 'undef';
 
 }
-binarySearch('test.txt', "ключ23548");
+binarySearch('test.txt', "ключ125486");
 
 echo "\nВремя выполнения скрипта: " . round(microtime(true) - $s, 4) . ' сек.';
